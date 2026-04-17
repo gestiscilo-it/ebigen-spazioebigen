@@ -1,6 +1,7 @@
 // Filter state
 const filterState = {
     category: "tutti",
+    subcategory: "tutti",
     level: "tutti",
     duration: "tutti",
     priceMin: 0,
@@ -16,6 +17,11 @@ function applyFilters(coursesData) {
     // Filter by category
     if (filterState.category !== "tutti") {
         filtered = filtered.filter(course => course.category === filterState.category);
+    }
+
+    // Filter by subcategory (only meaningful when a category is selected)
+    if (filterState.subcategory !== "tutti" && filterState.category !== "tutti") {
+        filtered = filtered.filter(course => course.subcategory === filterState.subcategory);
     }
 
     // Filter by level
@@ -82,6 +88,7 @@ function updateFilter(filterName, value) {
 // Reset all filters
 function resetFilters() {
     filterState.category = "tutti";
+    filterState.subcategory = "tutti";
     filterState.level = "tutti";
     filterState.duration = "tutti";
     filterState.priceMin = 0;
@@ -94,6 +101,7 @@ function resetFilters() {
 function getActiveFiltersCount() {
     let count = 0;
     if (filterState.category !== "tutti") count++;
+    if (filterState.subcategory !== "tutti") count++;
     if (filterState.level !== "tutti") count++;
     if (filterState.duration !== "tutti") count++;
     if (filterState.priceMin > 0 || filterState.priceMax < 500) count++;

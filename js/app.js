@@ -4,11 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeApp() {
-    // Check URL parameters for category filter
+    // Check URL parameters for category / subcategory filter
     const urlParams = new URLSearchParams(window.location.search);
     const categoryParam = urlParams.get('category');
     if (categoryParam && categories.find(c => c.id === categoryParam)) {
         updateFilter('category', categoryParam);
+
+        const subcategoryParam = urlParams.get('subcategory');
+        const catSubs = subcategories[categoryParam] || [];
+        if (subcategoryParam && catSubs.find(s => s.id === subcategoryParam)) {
+            updateFilter('subcategory', subcategoryParam);
+        }
     }
 
     renderCategories();
@@ -17,19 +23,47 @@ function initializeApp() {
     setupEventListeners();
 }
 
-// Render sidebar categories
+// Render sidebar categories (with nested subcategories under the active one)
 function renderCategories() {
     const sidebar = document.getElementById('categories-list');
     if (!sidebar) return;
 
-    sidebar.innerHTML = categories.map(cat => `
-        <button
-            class="category-btn w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${filterState.category === cat.id ? 'bg-indigo-100 text-indigo-700 font-semibold' : 'hover:bg-gray-100 text-gray-700'}"
-            data-category="${cat.id}"
-        >
-            ${cat.name}
-        </button>
-    `).join('');
+    sidebar.innerHTML = categories.map(cat => {
+        const isActive = filterState.category === cat.id;
+        const subs = subcategories[cat.id];
+        const showSubs = isActive && subs && subs.length > 0;
+
+        const subsHtml = showSubs ? `
+            <div class="mt-1 ml-3 pl-3 border-l border-emerald-200 space-y-1">
+                <button
+                    class="subcategory-btn w-full text-left px-3 py-1.5 rounded-md text-sm transition-all duration-150 ${filterState.subcategory === 'tutti' ? 'text-emerald-700 font-semibold' : 'text-gray-600 hover:text-emerald-700 hover:bg-gray-100'}"
+                    data-subcategory="tutti"
+                >
+                    Tutte le sottocategorie
+                </button>
+                ${subs.map(sub => `
+                    <button
+                        class="subcategory-btn w-full text-left px-3 py-1.5 rounded-md text-sm transition-all duration-150 ${filterState.subcategory === sub.id ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-600 hover:text-emerald-700 hover:bg-gray-100'}"
+                        data-subcategory="${sub.id}"
+                    >
+                        ${sub.name}
+                    </button>
+                `).join('')}
+            </div>
+        ` : '';
+
+        return `
+            <div>
+                <button
+                    class="category-btn w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${isActive ? 'bg-emerald-100 text-emerald-700 font-semibold' : 'hover:bg-gray-100 text-gray-700'}"
+                    data-category="${cat.id}"
+                >
+                    ${cat.name}
+                </button>
+                ${subsHtml}
+            </div>
+        `;
+    }).join('');
 }
 
 // Render filter dropdowns
@@ -85,7 +119,7 @@ function renderCourses() {
                 </svg>
                 <p class="text-lg font-medium">Nessun corso trovato</p>
                 <p class="text-sm">Prova a modificare i filtri di ricerca</p>
-                <button onclick="handleResetFilters()" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                <button onclick="handleResetFilters()" class="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors">
                     Resetta filtri
                 </button>
             </div>
@@ -113,47 +147,49 @@ function createCourseCard(course) {
     const stars = generateStars(course.rating);
 
     return `
-        <article class="course-card bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer">
-            <div class="relative overflow-hidden">
-                <img
-                    src="${course.image}"
-                    alt="${course.title}"
-                    class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                    onerror="this.src='https://via.placeholder.com/400x250/e2e8f0/64748b?text=Corso'"
-                >
-                <span class="absolute top-3 left-3 px-2 py-1 text-xs font-medium rounded-full ${levelColors[course.level]}">
-                    ${levelNames[course.level]}
-                </span>
-                <button class="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-white transition-colors opacity-0 group-hover:opacity-100">
-                    <svg class="w-5 h-5 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="p-4">
-                <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-indigo-600 transition-colors">
-                    ${course.title}
-                </h3>
-                <p class="text-sm text-gray-500 mb-2">${course.instructor}</p>
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="flex items-center text-yellow-400">
-                        ${stars}
-                    </div>
-                    <span class="text-sm font-medium text-gray-700">${course.rating}</span>
-                    <span class="text-sm text-gray-400">(${course.reviews.toLocaleString('it-IT')})</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-lg font-bold text-gray-900">€${course.price.toFixed(2)}</span>
-                    <span class="text-sm text-gray-500 flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        ${course.duration}h
+        <a href="course.html?id=${course.id}" class="block">
+            <article class="course-card bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer h-full">
+                <div class="relative overflow-hidden">
+                    <img
+                        src="${course.image}"
+                        alt="${course.title}"
+                        class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        onerror="this.src='https://via.placeholder.com/400x250/e2e8f0/64748b?text=Corso'"
+                    >
+                    <span class="absolute top-3 left-3 px-2 py-1 text-xs font-medium rounded-full ${levelColors[course.level]}">
+                        ${levelNames[course.level]}
                     </span>
+                    <button type="button" class="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-white transition-colors opacity-0 group-hover:opacity-100" onclick="event.preventDefault(); event.stopPropagation();">
+                        <svg class="w-5 h-5 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </button>
                 </div>
-            </div>
-        </article>
+                <div class="p-4">
+                    <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                        ${course.title}
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-2">${course.instructor}</p>
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="flex items-center text-yellow-400">
+                            ${stars}
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">${course.rating}</span>
+                        <span class="text-sm text-gray-400">(${course.reviews.toLocaleString('it-IT')})</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-gray-900">€${course.price.toFixed(2)}</span>
+                        <span class="text-sm text-gray-500 flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            ${course.duration}h
+                        </span>
+                    </div>
+                </div>
+            </article>
+        </a>
     `;
 }
 
@@ -185,12 +221,21 @@ function generateStars(rating) {
 
 // Setup event listeners
 function setupEventListeners() {
-    // Category buttons
+    // Category + subcategory buttons (delegated)
     document.getElementById('categories-list')?.addEventListener('click', (e) => {
+        const subBtn = e.target.closest('.subcategory-btn');
+        if (subBtn) {
+            updateFilter('subcategory', subBtn.dataset.subcategory);
+            renderCategories();
+            renderCourses();
+            return;
+        }
+
         const btn = e.target.closest('.category-btn');
         if (btn) {
             const category = btn.dataset.category;
             updateFilter('category', category);
+            updateFilter('subcategory', 'tutti');
             renderCategories();
             renderCourses();
         }

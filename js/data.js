@@ -6,6 +6,7 @@ const courses = [
         description: "Impara JavaScript dalle basi fino alle tecniche avanzate con progetti pratici",
         instructor: "Marco Rossi",
         category: "sviluppo-web",
+        subcategory: "frontend",
         level: "principiante",
         duration: 12,
         price: 89.99,
@@ -19,6 +20,7 @@ const courses = [
         description: "Sviluppa applicazioni web moderne con React, Redux e React Router",
         instructor: "Laura Bianchi",
         category: "sviluppo-web",
+        subcategory: "frontend",
         level: "intermedio",
         duration: 18,
         price: 129.99,
@@ -32,6 +34,7 @@ const courses = [
         description: "Impara a progettare interfacce utente intuitive e belle",
         instructor: "Giulia Verdi",
         category: "design-ux",
+        subcategory: "ux-design",
         level: "principiante",
         duration: 8,
         price: 69.99,
@@ -45,6 +48,7 @@ const courses = [
         description: "Diventa un esperto di Figma per la progettazione UI professionale",
         instructor: "Alessandro Neri",
         category: "design-ux",
+        subcategory: "ui-design",
         level: "intermedio",
         duration: 10,
         price: 79.99,
@@ -58,6 +62,7 @@ const courses = [
         description: "Porta il tuo sito in prima pagina su Google",
         instructor: "Francesca Colombo",
         category: "marketing-digitale",
+        subcategory: "seo",
         level: "principiante",
         duration: 6,
         price: 59.99,
@@ -71,6 +76,7 @@ const courses = [
         description: "Strategie avanzate per dominare i social media",
         instructor: "Roberto Ferrari",
         category: "marketing-digitale",
+        subcategory: "social-media",
         level: "avanzato",
         duration: 15,
         price: 149.99,
@@ -84,6 +90,7 @@ const courses = [
         description: "Analisi dati e machine learning con Python",
         instructor: "Elena Martini",
         category: "data-science",
+        subcategory: "python",
         level: "intermedio",
         duration: 20,
         price: 159.99,
@@ -97,6 +104,7 @@ const courses = [
         description: "Costruisci modelli di ML con scikit-learn e TensorFlow",
         instructor: "Paolo Ricci",
         category: "data-science",
+        subcategory: "machine-learning",
         level: "avanzato",
         duration: 25,
         price: 199.99,
@@ -110,6 +118,7 @@ const courses = [
         description: "Crea un business plan vincente per la tua startup",
         instructor: "Chiara Galli",
         category: "business",
+        subcategory: "imprenditoria",
         level: "principiante",
         duration: 4,
         price: 49.99,
@@ -123,6 +132,7 @@ const courses = [
         description: "Diventa un leader efficace e gestisci team di successo",
         instructor: "Antonio Moretti",
         category: "business",
+        subcategory: "leadership",
         level: "intermedio",
         duration: 8,
         price: 89.99,
@@ -136,6 +146,7 @@ const courses = [
         description: "Inglese professionale per il mondo del lavoro",
         instructor: "Sarah Johnson",
         category: "lingue",
+        subcategory: "inglese",
         level: "intermedio",
         duration: 12,
         price: 79.99,
@@ -149,6 +160,7 @@ const courses = [
         description: "Impara lo spagnolo partendo dalle basi",
         instructor: "Maria Garcia",
         category: "lingue",
+        subcategory: "spagnolo",
         level: "principiante",
         duration: 15,
         price: 69.99,
@@ -162,6 +174,7 @@ const courses = [
         description: "Dalla composizione al fotoritocco professionale",
         instructor: "Luca Santini",
         category: "fotografia-video",
+        subcategory: "fotografia",
         level: "principiante",
         duration: 10,
         price: 99.99,
@@ -175,6 +188,7 @@ const courses = [
         description: "Monta video professionali con Adobe Premiere",
         instructor: "Matteo Bruno",
         category: "fotografia-video",
+        subcategory: "video-editing",
         level: "intermedio",
         duration: 14,
         price: 119.99,
@@ -188,6 +202,7 @@ const courses = [
         description: "Crea API REST e applicazioni backend con Node.js",
         instructor: "Marco Rossi",
         category: "sviluppo-web",
+        subcategory: "backend",
         level: "intermedio",
         duration: 16,
         price: 109.99,
@@ -201,6 +216,7 @@ const courses = [
         description: "Crea campagne pubblicitarie che convertono",
         instructor: "Francesca Colombo",
         category: "marketing-digitale",
+        subcategory: "advertising",
         level: "intermedio",
         duration: 7,
         price: 89.99,
@@ -214,6 +230,7 @@ const courses = [
         description: "Gestione database relazionali con SQL",
         instructor: "Elena Martini",
         category: "data-science",
+        subcategory: "sql-database",
         level: "principiante",
         duration: 8,
         price: 59.99,
@@ -227,6 +244,7 @@ const courses = [
         description: "Diventa un esperto di Excel con formule avanzate e macro",
         instructor: "Antonio Moretti",
         category: "business",
+        subcategory: "produttivita",
         level: "avanzato",
         duration: 6,
         price: 69.99,
@@ -240,6 +258,7 @@ const courses = [
         description: "Crea animazioni e motion graphics professionali",
         instructor: "Matteo Bruno",
         category: "fotografia-video",
+        subcategory: "motion-graphics",
         level: "avanzato",
         duration: 18,
         price: 139.99,
@@ -253,6 +272,7 @@ const courses = [
         description: "Crea design system scalabili per grandi progetti",
         instructor: "Giulia Verdi",
         category: "design-ux",
+        subcategory: "design-system",
         level: "avanzato",
         duration: 12,
         price: 129.99,
@@ -273,6 +293,50 @@ const categories = [
     { id: "lingue", name: "Lingue" },
     { id: "fotografia-video", name: "Fotografia & Video" }
 ];
+
+// Subcategories — map category id → array of subcategories
+const subcategories = {
+    "sviluppo-web": [
+        { id: "frontend", name: "Frontend" },
+        { id: "backend", name: "Backend" },
+        { id: "full-stack", name: "Full Stack" },
+        { id: "cms", name: "CMS & Piattaforme" }
+    ],
+    "design-ux": [
+        { id: "ux-design", name: "UX Design" },
+        { id: "ui-design", name: "UI Design" },
+        { id: "design-system", name: "Design System" },
+        { id: "prototipazione", name: "Prototipazione" }
+    ],
+    "marketing-digitale": [
+        { id: "seo", name: "SEO" },
+        { id: "social-media", name: "Social Media" },
+        { id: "advertising", name: "Advertising" },
+        { id: "email", name: "Email Marketing" }
+    ],
+    "data-science": [
+        { id: "python", name: "Python & Analisi" },
+        { id: "machine-learning", name: "Machine Learning" },
+        { id: "sql-database", name: "SQL & Database" },
+        { id: "visualizzazione", name: "Visualizzazione Dati" }
+    ],
+    "business": [
+        { id: "imprenditoria", name: "Imprenditoria" },
+        { id: "leadership", name: "Leadership & Team" },
+        { id: "finanza", name: "Finanza" },
+        { id: "produttivita", name: "Produttività" }
+    ],
+    "lingue": [
+        { id: "inglese", name: "Inglese" },
+        { id: "spagnolo", name: "Spagnolo" },
+        { id: "altre", name: "Altre Lingue" }
+    ],
+    "fotografia-video": [
+        { id: "fotografia", name: "Fotografia" },
+        { id: "video-editing", name: "Video Editing" },
+        { id: "motion-graphics", name: "Motion Graphics" }
+    ]
+};
 
 // Levels configuration
 const levels = [
