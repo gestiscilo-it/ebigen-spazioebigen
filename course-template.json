@@ -1,0 +1,138 @@
+{
+  "$schema": "Template del modello dati di un corso EduShop — usare come riferimento per il form di creazione/modifica corso",
+
+  "id": 1,
+  "title": "JavaScript Completo: Da Zero a Esperto",
+  "description": "Impara JavaScript dalle basi fino alle tecniche avanzate con progetti pratici",
+  "longDescription": "Questo corso completo ti guiderà passo dopo passo nel mondo dello sviluppo web moderno. Attraverso video lezioni pratiche, esercizi guidati e progetti reali, acquisirai le competenze richieste dalle aziende e costruirai un portfolio solido da presentare ai recruiter.",
+
+  "instructor": {
+    "name": "Marco Rossi",
+    "bio": "Professionista con esperienza pluriennale nel settore, formatore e consulente per aziende e privati. Ha aiutato migliaia di studenti a raggiungere i propri obiettivi.",
+    "expertise": "Sviluppo Web"
+  },
+
+  "category": {
+    "id": "sviluppo-web",
+    "name": "Sviluppo Web"
+  },
+  "subcategory": {
+    "id": "frontend",
+    "name": "Frontend"
+  },
+
+  "level": "principiante",
+  "_levelOptions": ["principiante", "intermedio", "avanzato"],
+
+  "language": "Italiano",
+
+  "duration": {
+    "hours": 12,
+    "totalMinutes": 720
+  },
+
+  "price": {
+    "amount": 89.99,
+    "currency": "EUR"
+  },
+
+  "rating": {
+    "value": 4.8,
+    "reviewsCount": 2340
+  },
+
+  "image": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop",
+
+  "lastUpdate": "2025-10",
+
+  "whatYouLearn": [
+    "Padroneggiare linguaggi e framework moderni",
+    "Costruire applicazioni web scalabili da zero",
+    "Utilizzare Git e strumenti di sviluppo professionali",
+    "Implementare best practice e pattern riconosciuti",
+    "Debuggare, testare e ottimizzare il codice",
+    "Pubblicare progetti reali online"
+  ],
+
+  "requirements": [
+    "Computer con sistema operativo moderno",
+    "Connessione internet stabile",
+    "Conoscenza base di HTML e CSS (utile ma non obbligatoria)",
+    "Voglia di esercitarsi con progetti pratici"
+  ],
+
+  "audience": [
+    "Aspiranti sviluppatori web",
+    "Professionisti in transizione di carriera",
+    "Sviluppatori junior che vogliono consolidare le basi",
+    "Freelance che vogliono ampliare i propri servizi"
+  ],
+
+  "curriculum": {
+    "totalModules": 6,
+    "totalLessons": 24,
+    "modules": [
+      {
+        "title": "Introduzione e setup",
+        "lessons": [
+          { "title": "Panoramica del corso", "minutes": 30 },
+          { "title": "Installazione strumenti", "minutes": 30 },
+          { "title": "Struttura del progetto", "minutes": 30 },
+          { "title": "Hello World", "minutes": 30 }
+        ]
+      },
+      {
+        "title": "Fondamenti del linguaggio",
+        "lessons": [
+          { "title": "Sintassi base", "minutes": 30 },
+          { "title": "Variabili e tipi di dato", "minutes": 30 },
+          { "title": "Operatori ed espressioni", "minutes": 30 },
+          { "title": "Strutture di controllo", "minutes": 30 }
+        ]
+      },
+      {
+        "title": "Funzioni e oggetti",
+        "lessons": [
+          { "title": "Dichiarazione di funzioni", "minutes": 30 },
+          { "title": "Arrow functions", "minutes": 30 },
+          { "title": "Oggetti e proprietà", "minutes": 30 },
+          { "title": "Destructuring", "minutes": 30 }
+        ]
+      },
+      {
+        "title": "Lavorare con il DOM",
+        "lessons": [
+          { "title": "Selettori", "minutes": 30 },
+          { "title": "Manipolazione degli elementi", "minutes": 30 },
+          { "title": "Event listener", "minutes": 30 },
+          { "title": "Event delegation", "minutes": 30 }
+        ]
+      },
+      {
+        "title": "Programmazione asincrona",
+        "lessons": [
+          { "title": "Callback e Promise", "minutes": 30 },
+          { "title": "async/await", "minutes": 30 },
+          { "title": "Fetch API", "minutes": 30 },
+          { "title": "Gestione degli errori", "minutes": 30 }
+        ]
+      },
+      {
+        "title": "Componenti e architettura",
+        "lessons": [
+          { "title": "Pattern MVC", "minutes": 30 },
+          { "title": "Componenti riutilizzabili", "minutes": 30 },
+          { "title": "State management", "minutes": 30 },
+          { "title": "Routing", "minutes": 30 }
+        ]
+      }
+    ]
+  },
+
+  "features": {
+    "hasCertificate": true,
+    "hasMobileAccess": true,
+    "hasLifetimeAccess": true,
+    "refundDays": 30
+  }
+}
